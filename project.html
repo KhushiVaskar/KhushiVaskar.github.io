@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      padding: 10px 20px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .resume {
+      margin-top: 30px;
+      border-top: 2px solid #007bff;
+      padding-top: 20px;
+    }
+    .resume img {
+      max-width: 150px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Resume Generator</h2>
+    <input type="file" id="image" accept="image/*">
+    <input type="text" id="name" placeholder="Name">
+    <input type="text" id="skills" placeholder="Skills (comma separated)">
+    <textarea id="experience" placeholder="Experience"></textarea>
+    <input type="text" id="qualification" placeholder="Qualification">
+    <input type="text" id="hobbies" placeholder="Hobbies (comma separated)">
+    <button onclick="generateResume()">Generate Resume</button>
+
+    <div class="resume" id="resumeOutput"></div>
+  </div>
+
+  <script>
+    function generateResume() {
+      const reader = new FileReader();
+      const imageFile = document.getElementById('image').files[0];
+      const name = document.getElementById('name').value;
+      const skills = document.getElementById('skills').value.split(',').map(s => s.trim());
+      const experience = document.getElementById('experience').value;
+      const qualification = document.getElementById('qualification').value;
+      const hobbies = document.getElementById('hobbies').value.split(',').map(h => h.trim());
+
+      reader.onload = function (e) {
+        document.getElementById('resumeOutput').innerHTML = `
+          <img src="${e.target.result}" alt="Profile Image">
+          <h2>${name}</h2>
+          <p><strong>Skills:</strong> ${skills.join(', ')}</p>
+          <p><strong>Experience:</strong> ${experience}</p>
+          <p><strong>Qualification:</strong> ${qualification}</p>
+          <p><strong>Hobbies:</strong> ${hobbies.join(', ')}</p>
+        `;
+      };
+
+      if (imageFile) {
+        reader.readAsDataURL(imageFile);
+      } else {
+        document.getElementById('resumeOutput').innerHTML = `
+          <h2>${name}</h2>
+          <p><strong>Skills:</strong> ${skills.join(', ')}</p>
+          <p><strong>Experience:</strong> ${experience}</p>
+          <p><strong>Qualification:</strong> ${qualification}</p>
+          <p><strong>Hobbies:</strong> ${hobbies.join(', ')}</p>
+        `;
+      }
+    }
+  </script>
+</body>
+</html>
